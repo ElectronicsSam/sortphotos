@@ -437,8 +437,21 @@ def sortPhotos(src_dir, dest_dir, sort_format, rename_format, recursive=False,
         for ext in sidecar_extensions:
             if not ext.startswith("."):
                 ext="." + ext
-            src_to_move = src_root + ext
-            dest_to_move = dest_root + ext
+
+            # search for sidecar file (default same filename, different extension)
+            if os.path.isfile((src_root + ext)):
+                src_to_move = src_root + ext
+                dest_to_move = dest_root + ext
+            # look for sony video xml sidecar file (M01 suffix)
+            elif os.path.isfile((src_root + "M01" + ext)):
+                src_to_move = src_root + "M01" + ext
+                dest_to_move = dest_root + "M01" + ext
+                if verbose:
+                    print("Sony xml sidecar file found")
+            else:
+                src_to_move = ""
+                if verbose:
+                    print("No sidecar file found!")
 
             if os.path.isfile(src_to_move):
                 if verbose:
