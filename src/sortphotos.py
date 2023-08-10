@@ -362,6 +362,12 @@ def sortPhotos(src_dir, dest_dir, sort_format, rename_format, recursive=False,
             print()
             continue
 
+        # ignore sony video thumbnail jpg's
+        if 'T01' in os.path.basename(src_file):
+            print('Sony video thumbnail jpg,  will be skipped')
+            print()
+            continue
+
         if verbose:
             print('Date/Time: ' + str(date))
             print('Corresponding Tags: ' + ', '.join(keys))
